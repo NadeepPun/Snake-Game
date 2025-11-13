@@ -31,6 +31,7 @@ class SnakeGame:
         self.running = False  # start paused instead of running straight away
         self.dead = False
         self.score = 0
+        self.best_score = 0  # keep track of best score in this session
         self.tick_ms = TICK_MS_START
         self.dir = "Right"
         self.pending_dir = "Right"
@@ -81,13 +82,18 @@ class SnakeGame:
         if nx < 0 or nx >= GRID_W or ny < 0 or ny >= GRID_H:
             self.dead = True
             self.running = False
+            if self.score > self.best_score:
+                self.best_score = self.score
             return
 
-        # self collision (check new head vs body excluding tail if we grow later)
+        # self collision
         if (nx, ny) in self.snake:
             self.dead = True
             self.running = False
+            if self.score > self.best_score:
+                self.best_score = self.score
             return
+
 
         # move
         self.snake.append((nx, ny))
@@ -124,8 +130,15 @@ class SnakeGame:
             self.rect(sx, sy, fill=fill)
 
         # HUD
-        self.c.create_text(6, 6, anchor="nw", fill="#fff", font=("Helvetica", 12, "bold"),
-                           text=f"Score: {self.score}  Speed: {round(1000/self.tick_ms,1)} tps")
+        self.c.create_text(
+            6,
+            6,
+            anchor="nw",
+            fill="#fff",
+            font=("Helvetica", 12, "bold"),
+            text=f"Score: {self.score}  Best: {self.best_score}  Speed: {round(1000 / self.tick_ms, 1)} tps"
+        )
+
 
         if not self.running or self.dead:
             self.c.create_rectangle(0, 0, W, H, fill="#000", stipple="gray50", outline="")
