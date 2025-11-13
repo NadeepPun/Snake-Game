@@ -28,7 +28,7 @@ class SnakeGame:
         self.c = tk.Canvas(root, width=W, height=H, bg="#111", highlightthickness=0)
         self.c.pack()
 
-        self.running = True
+        self.running = False  # start paused instead of running straight away
         self.dead = False
         self.score = 0
         self.tick_ms = TICK_MS_START
@@ -49,7 +49,7 @@ class SnakeGame:
         self.score = 0
         self.tick_ms = TICK_MS_START
         self.dead = False
-        self.running = True
+        self.running = False # after restart, wait for player to press space
         self.spawn_apple()
 
     def on_key(self, e):
@@ -129,9 +129,21 @@ class SnakeGame:
 
         if not self.running or self.dead:
             self.c.create_rectangle(0, 0, W, H, fill="#000", stipple="gray50", outline="")
-            msg = "Paused\nPress Space to resume" if not self.dead else f"Game Over\nScore: {self.score}\n\nPress Space to restart"
-            self.c.create_text(W/2, H/2, fill="#fff", font=("Helvetica", 20, "bold"),
-                               text=msg, justify="center")
+
+            if self.dead:
+                msg = f"Game Over\nScore: {self.score}\n\nPress Space to restart"
+            else:
+                msg = "Snake Game\n\nPress Space to start or pause"
+
+            self.c.create_text(
+                W / 2,
+                H / 2,
+                fill="#fff",
+                font=("Helvetica", 20, "bold"),
+                text=msg,
+                justify="center"
+            )
+
 
     def rect(self, gx: int, gy: int, fill: str):
         x1, y1 = gx * TILE, gy * TILE
