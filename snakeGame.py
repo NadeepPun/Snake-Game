@@ -55,6 +55,17 @@ class SnakeGame:
 
     def on_key(self, e):
         k = e.keysym
+
+        # allow WASD keys as alternative movement controls
+        if k in ("w", "W"):
+            k = "Up"
+        elif k in ("s", "S"):
+            k = "Down"
+        elif k in ("a", "A"):
+            k = "Left"
+        elif k in ("d", "D"):
+            k = "Right"
+
         if k in DIRS:
             # prevent instant 180-degree turns
             if not self.dead:
@@ -65,6 +76,7 @@ class SnakeGame:
                 self.restart()
             else:
                 self.running = not self.running
+
 
     def loop(self):
         if self.running and not self.dead:
