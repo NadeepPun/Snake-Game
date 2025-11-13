@@ -76,6 +76,10 @@ class SnakeGame:
                 self.restart()
             else:
                 self.running = not self.running
+        elif k in ("r", "R"):
+            # restart game at any time with R
+            self.restart()
+
 
 
     def loop(self):
