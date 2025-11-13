@@ -130,6 +130,7 @@ class SnakeGame:
             self.rect(sx, sy, fill=fill)
 
         # HUD
+        level = 1 + self.score // SPEEDUP_EVERY
         self.c.create_text(
             6,
             6,
