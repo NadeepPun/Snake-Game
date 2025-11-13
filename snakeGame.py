@@ -138,7 +138,7 @@ class SnakeGame:
         # apple
         ax, ay = self.apple
         if ax >= 0:
-            self.rect(ax, ay, fill="#ef4565")
+            self.rect(ax, ay, fill="#ff4f6a")
 
         # snake
         for i, (sx, sy) in enumerate(self.snake):
